@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 #define HZ_METER_ASUKIAAA_VERSION_MAJOR 1
-#define HZ_METER_ASUKIAAA_VERSION_MINOR 0
+#define HZ_METER_ASUKIAAA_VERSION_MINOR 1
 #define HZ_METER_ASUKIAAA_VERSION_PATCH 0
 
 namespace HzMeter_asukiaaa {
