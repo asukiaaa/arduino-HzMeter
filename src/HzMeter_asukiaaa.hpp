@@ -65,17 +65,8 @@ class CountInfo {
 
 class Counter {
  public:
-  const int pinCounter;
   CountInfo info;
-
-  Counter(const int pinCounter)
-      : pinCounter(digitalPinToInterrupt(pinCounter)) {}
-
-  void begin(void (*countUp)()) {
-    pinMode(pinCounter, INPUT_PULLUP);
-    info.begin();
-    attachInterrupt(pinCounter, countUp, RISING);
-  }
+  void begin() { info.begin(); }
 
   void popAndReset(CountInfo* pInfo) {
     info.end();
@@ -134,8 +125,8 @@ class Core {
  public:
   Counter* counter;
 
-  Core(const int pinCount, const int historyLength = DEFAULT_HISTORY_LENGTH) {
-    counter = new Counter(pinCount);
+  Core(const int historyLength = DEFAULT_HISTORY_LENGTH) {
+    counter = new Counter();
     infoBundler = new CountInfoBundler(historyLength);
   }
 
@@ -143,6 +134,9 @@ class Core {
     delete counter;
     delete infoBundler;
   }
+
+  void begin() { counter->begin(); }
+  void countUp() { counter->countUp(); }
 
   void onInterval() {
     CountInfo info;

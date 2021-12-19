@@ -12,7 +12,11 @@ HzMeter_asukiaaa::Core hzMeter(PIN_INTERRUPT_HZ_METER);
 
 void setup() {
   Serial.begin(115200);
-  hzMeter.counter->begin([]() { hzMeter.counter->countUp(); });
+  hzMeter.begin();
+  pinMode(PIN_INTERRUPT_HZ_METER, INPUT_PULLUP);
+  attachInterrupt(
+      digitalPinToInterrupt(PIN_INTERRUPT_HZ_METER),
+      []() { hzMeter.countUp(); }, RISING);
 }
 
 void loop() {
