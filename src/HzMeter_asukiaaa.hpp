@@ -21,6 +21,9 @@ class CountInfo {
   void prepend(CountInfo info) {
     if (info.counts > 0) {
       firstAt = info.firstAt;
+      if (counts == 0) {
+        lastAt = info.lastAt;
+      }
     }
     measuredFrom = info.measuredFrom;
     counts += info.counts;
@@ -29,6 +32,9 @@ class CountInfo {
   void append(CountInfo info) {
     if (info.counts > 0) {
       lastAt = info.lastAt;
+      if (counts == 0) {
+        firstAt = info.firstAt;
+      }
     }
     measuredTill = info.measuredTill;
     counts += info.counts;
