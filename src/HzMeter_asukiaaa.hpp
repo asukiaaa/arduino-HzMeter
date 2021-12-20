@@ -154,7 +154,7 @@ class Core {
   // float getHz() { return infoBundled.calcHzByFirstAndLast(); }
   // float getHzMeasuredAt() { return infoBundled.measuredTill; }
 
-  const CountInfo* const pInfoBundledP() { return &infoBundled; }
+  const CountInfo* const getInfoBundledP() { return &infoBundled; }
   CountInfo const getInfoBundled() { return infoBundled; }
 
  private:
