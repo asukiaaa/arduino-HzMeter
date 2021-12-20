@@ -5,10 +5,10 @@
 #error needed to assign interrupt pin for PIN_INTERRUPT_HZ_METER
 #endif
 
-HzMeter_asukiaaa::Core hzMeter(PIN_INTERRUPT_HZ_METER);
+HzMeter_asukiaaa::Core hzMeter;
 
 // #define HISTORY_LENGTH 5
-// HzMeter_asukiaaa::Core hzMeter(PIN_INTERRUPT_HZ_METER, HISTORY_LENGTH);
+// HzMeter_asukiaaa::Core hzMeter(HISTORY_LENGTH);
 
 void setup() {
   Serial.begin(115200);
