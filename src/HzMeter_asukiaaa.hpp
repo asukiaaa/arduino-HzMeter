@@ -101,30 +101,40 @@ class CountInfoBundler {
   }
 
   void pushCountInfo(CountInfo info) {
-    if (historyCurrentIndex >= historyLength - 1) {
-      historyCurrentIndex = 0;
-    } else {
-      ++historyCurrentIndex;
-    }
+    historyCurrentIndex = normalizeIndex(historyCurrentIndex + 1);
     infoArr[historyCurrentIndex] = info;
   }
 
-  void bundle(CountInfo* resultInfo) {
-    int targetIndex = historyCurrentIndex;
+  CountInfo bundle(int length = -1, int from = 0) const {
+    if (from < 0) {
+      from = 0;
+    }
+    if (length < 0 || length > historyLength) {
+      length = historyLength;
+    }
+    int targetIndex = normalizeIndex(historyCurrentIndex - from);
     CountInfo bundledInfo = infoArr[targetIndex];
-    for (int i = 0; i < historyLength - 1; ++i) {
-      if (targetIndex == 0) {
-        targetIndex = historyLength;
-      }
-      --targetIndex;
+    for (int i = 0; i < length - 1; ++i) {
+      targetIndex = normalizeIndex(targetIndex - 1);
       bundledInfo.prepend(infoArr[targetIndex]);
     }
-    *resultInfo = bundledInfo;
+    return bundledInfo;
   }
 
  private:
   CountInfo* infoArr;
   int historyCurrentIndex = 0;
+
+  int normalizeIndex(int i) const {
+    while (i < 0 || historyLength <= i) {
+      if (i < 0) {
+        i += historyLength;
+      } else {
+        i -= historyLength;
+      }
+    }
+    return i;
+  }
 };
 
 class Core {
@@ -148,7 +158,7 @@ class Core {
     CountInfo info;
     counter->popAndReset(&info);
     infoBundler->pushCountInfo(info);
-    infoBundler->bundle(&infoBundled);
+    infoBundled = infoBundler->bundle();
   }
 
   // float getHz() { return infoBundled.calcHzByFirstAndLast(); }
@@ -156,6 +166,7 @@ class Core {
 
   const CountInfo* const getInfoBundledP() { return &infoBundled; }
   CountInfo const getInfoBundled() { return infoBundled; }
+  const CountInfoBundler* const getBundlerP() { return infoBundler; }
 
  private:
   CountInfoBundler* infoBundler;
