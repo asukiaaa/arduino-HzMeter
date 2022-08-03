@@ -60,7 +60,10 @@ class CountInfo {
     return (double)counts * 1000 / (float)(measuredFrom - targetMeasuredTill);
   }
 
-  void countUp() {
+  void countUp(unsigned long msIgnoreLessThan = 0) {
+    if (counts != 0 && millis() - lastAt < msIgnoreLessThan) {
+      return;
+    }
     lastAt = millis();
     if (counts == 0) {
       firstAt = lastAt;
@@ -72,6 +75,7 @@ class CountInfo {
 class Counter {
  public:
   CountInfo info;
+  unsigned long msIgnoreLessThan = 0;
   void begin() { info.begin(); }
 
   void popAndReset(CountInfo* pInfo) {
@@ -80,7 +84,7 @@ class Counter {
     info.begin();
   }
 
-  void countUp() { info.countUp(); }
+  void countUp() { info.countUp(msIgnoreLessThan); }
 };
 
 class CountInfoBundler {
