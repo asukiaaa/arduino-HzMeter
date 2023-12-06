@@ -61,10 +61,11 @@ class CountInfo {
   }
 
   void countUp(unsigned long msIgnoreLessThan = 0) {
-    if (counts != 0 && millis() - lastAt < msIgnoreLessThan) {
+    auto now = millis();
+    if (counts != 0 && now - lastAt < msIgnoreLessThan) {
       return;
     }
-    lastAt = millis();
+    lastAt = now;
     if (counts == 0) {
       firstAt = lastAt;
     }
