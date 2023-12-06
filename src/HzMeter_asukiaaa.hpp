@@ -70,6 +70,18 @@ class CountInfo {
     }
     ++counts;
   }
+
+  void print(Stream* serial) {
+    serial->print((float)1000 / (lastAt - firstAt) * (counts - 1));
+    serial->print("hz ");
+    serial->print(String(firstAt) + " to " + String(lastAt) + " total " +
+                  String(lastAt - firstAt) + "ms " + String(counts) + "counts");
+  }
+
+  void println(Stream* serial) {
+    print(serial);
+    serial->println();
+  }
 };
 
 class Counter {
